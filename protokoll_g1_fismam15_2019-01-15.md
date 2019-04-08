@@ -68,7 +68,13 @@ Ziel dieser Übung ist es, den Temperatursensor vom Arduino Nano über einen Mod
 Damit der Modbus-Server eine Antwort sendet muss dieser eine Request empfangen.
 Für die Request arbeiten wir mit dem **ASCII Transmission Mode**, bei diesem werden die Bytes als ASCII-Text versendet.
 
-**Request:**
+**Request Grundaufbau:**
+
+|   Startbyte   |    Adresse    |  Funktion |     Daten     |    LCR    |    Ende    |
+|:-------------:|:-------------:|:---------:|:---------:|:---------:|------------|
+|        :      |       2 Bytes      |    2 Bytes     |   n Bytes   |     2 Bytes    |    CR LF   |
+
+**Request in unserer Übung:**
 
 |   Startbyte   |    Adresse    |  Funktion |     Daten     |    LCR    |    Ende    |
 |:-------------:|:-------------:|:---------:|:---------:|:---------:|------------|
@@ -106,6 +112,13 @@ Damit Server/Client wissen wann eine Request/Response endet werden am Ende `13 1
 
 Der Modbus-Server sendet nach der Request eine Response mit dem Temperaturwert.
 
+**Response Grundaufbau:**
+
+|   Startbyte   |    Adresse    |  Funktion | Quantität Bytes |     Daten     |    LCR    |    Ende    |
+|:-------------:|:-------------:|:---------:|:---------:|:---------:|:---------:|------------|
+|    :      |    2 Bytes     |    2 Bytes   |    2 Bytes | n Bytes  |   2 Bytes |    CR LF   |
+
+**Response in unserer Übung:**
 
 |   Startbyte   |    Adresse    |  Funktion | Quantität Bytes |     Daten     |    LCR    |    Ende    |
 |:-------------:|:-------------:|:---------:|:---------:|:---------:|:---------:|------------|
@@ -135,6 +148,8 @@ Die ersten 8 Bit stehen für den vollen **°C-Wert** und die anderen 8 Bit für 
 Mit dieser Konfiguration sind Temperaturwerte von **127,996°C** bis **- 128.0°C** möglich.
 
 **Schema:**
+
+Das Schema konnten wir selber aussuchen. Um ein optimales Verhältniss zwischen Genauigkeit und Zahlenweite erreichen verwenden wir:
 
 |    8 Bit    |    8 Bit    |
 |:-----------:|:-----------:|
